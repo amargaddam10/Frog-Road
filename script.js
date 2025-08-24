@@ -175,3 +175,4 @@ setInterval(() => {
 // Place frog at start when game loads
 resetFrog();
 
+
