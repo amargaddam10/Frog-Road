@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🐸 Frog Road Game</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>🐸 Frog Road Game</h1>
+    <div id="info">
+      <span id="score">Score: 0</span>
+      <span id="lives">Lives: 3</span>
+    </div>
+    <div id="game">
+      <div id="frog"></div>
+      <div id="river"></div>
+    </div>
+
+    <div id="mobile-controls">
+      <button onclick="moveFrog('ArrowLeft')">⬅️</button>
+      <button onclick="moveFrog('ArrowUp')">⬆️</button>
+      <button onclick="moveFrog('ArrowDown')">⬇️</button>
+      <button onclick="moveFrog('ArrowRight')">➡️</button>
+    </div>
+
+    <p id="status">Use arrow keys or tap buttons to move!</p>
+    <button id="restartBtn">Restart</button>
+
+    <!-- Audio -->
+    <audio id="jumpSound" src="jump.mp3"></audio>
+    <audio id="hitSound" src="hit.mp3"></audio>
+    <audio id="winSound" src="win1.mp3"></audio>
+    <audio id="gameOverSound" src="gameover.mp3"></audio>
+
+    <script src="script.js"></script>
+  </body>
+</html>
