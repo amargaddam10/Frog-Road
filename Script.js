@@ -28,10 +28,12 @@ function resetFrog() {
 }
 
 function playSound(sound) {
-  if (sound) {
-    sound.currentTime = 0;
-    sound.play();
-  }
+  try {
+    if (sound) {
+      sound.currentTime = 0;
+      sound.play();
+    }
+  } catch (_) {}
 }
 
 document.addEventListener("keydown", (e) => {
@@ -80,20 +82,19 @@ function createCar(laneY, speed) {
       frogRect.bottom > carRect.top
     ) {
       clearInterval(interval);
-      game.removeChild(car);
+      if (car.parentNode) car.parentNode.removeChild(car);
       handleHit();
     }
 
     if (posX > 500) {
       clearInterval(interval);
-      game.removeChild(car);
+      if (car.parentNode) car.parentNode.removeChild(car);
     }
   }, 20);
 }
 
 function spawnCars() {
-  const lanes = [80, 160, 240, 320]; // Y positions of lanes
-
+  const lanes = [80, 160, 240, 320];
   return setInterval(() => {
     if (!gameRunning) return;
     const lane = lanes[Math.floor(Math.random() * lanes.length)];
@@ -119,15 +120,8 @@ function handleHit() {
 }
 
 function checkWin() {
-  if (frogY >= 460) {
-    // Water zone
-    playSound(gameOverSound);
-    statusText.innerText = "💦 You fell in the river!";
-    endGame(false);
-    return;
-  }
-
-  if (frogY >= 400) {
+  // Win zone (top grass) before river
+  if (frogY >= 400 && frogY < 460) {
     score++;
     scoreDisplay.innerText = `Score: ${score}`;
     statusText.innerText = "✅ Reached the top!";
@@ -137,6 +131,14 @@ function checkWin() {
     if (score >= 5) {
       endGame(true);
     }
+    return;
+  }
+
+  // River = lose
+  if (frogY >= 460) {
+    statusText.innerText = "💦 You fell in the river!";
+    playSound(gameOverSound);
+    endGame(false);
   }
 }
 
@@ -161,6 +163,7 @@ restartBtn.addEventListener("click", () => {
 function getRandomColor() {
   const colors = ["red", "blue", "yellow", "orange", "purple", "black"];
   return colors[Math.floor(Math.random() * colors.length)];
+
 }
 
 // Start everything
@@ -168,3 +171,7 @@ spawnCars();
 setInterval(() => {
   if (gameRunning) checkWin();
 }, 200);
+
+// Place frog at start when game loads
+resetFrog();
+
